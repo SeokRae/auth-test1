@@ -49,6 +49,13 @@ public final class Jwt {
 		return builder.sign(algorithm);
 	}
 	
+	public String refreshToken(String token) throws JWTVerificationException {
+		Claims claims = verify(token);
+		claims.eraseIat();
+		claims.eraseExp();
+		return sign(claims);
+	}
+	
 	public Claims verify(String token) throws JWTVerificationException {
 		return new Claims(jwtVerifier.verify(token));
 	}
@@ -73,7 +80,7 @@ public final class Jwt {
 		return jwtVerifier;
 	}
 	
-	static public class Claims {
+	public static class Claims {
 		String username;
 		String[] roles;
 		Date iat;
@@ -83,12 +90,9 @@ public final class Jwt {
 		
 		Claims(DecodedJWT decodedJWT) {
 			Claim username = decodedJWT.getClaim("username");
-			if (!username.isNull())
-				this.username = username.asString();
+			if (!username.isNull()) this.username = username.asString();
 			Claim roles = decodedJWT.getClaim("roles");
-			if (!roles.isNull()) {
-				this.roles = roles.asArray(String.class);
-			}
+			if (!roles.isNull()) this.roles = roles.asArray(String.class);
 			this.iat = decodedJWT.getIssuedAt();
 			this.exp = decodedJWT.getExpiresAt();
 		}

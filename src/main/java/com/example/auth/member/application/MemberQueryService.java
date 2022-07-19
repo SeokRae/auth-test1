@@ -1,8 +1,10 @@
 package com.example.auth.member.application;
 
-import com.example.auth.member.domain.Member;
+import com.example.auth.member.interfaces.dto.ResponseMember;
 
 public interface MemberQueryService {
-
-	Member findMemberByUsername(String username);
+	
+	ResponseMember findMemberByUsername(String username);
+	
+	ResponseMember findMemberByEmail(String email);
 }

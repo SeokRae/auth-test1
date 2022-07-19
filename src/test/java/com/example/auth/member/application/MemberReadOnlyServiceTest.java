@@ -2,6 +2,7 @@ package com.example.auth.member.application;
 
 import com.example.auth.member.domain.Member;
 import com.example.auth.member.infrastructure.MemberRepository;
+import com.example.auth.member.interfaces.dto.ResponseMember;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,10 +29,10 @@ class MemberReadOnlyServiceTest {
 	@Test
 	void testCase1(@Mock Member member) {
 		
-		given(memberRepository.findByUsername(anyString())).willReturn(Optional.ofNullable(member));
-		Member expected = memberReadOnlyService.findMemberByUsername(anyString());
+		given(memberRepository.findByUsername(anyString())).willReturn(Optional.of(member));
+		ResponseMember expected = memberReadOnlyService.findMemberByUsername(anyString());
 		
-		assertThat(member).isEqualTo(expected);
+		assertThat(member.getEmail()).isEqualTo(expected.getEmail());
 	}
 	
 }

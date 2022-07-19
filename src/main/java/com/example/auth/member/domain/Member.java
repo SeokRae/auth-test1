@@ -23,18 +23,8 @@ public class Member {
 	public Member() {
 	}
 	
-	public Member(String email, String password) {
-		this(null, null, email, password);
-	}
-	
-	public Member(String username, String email, String password) {
-		this(null, username, email, password);
-	}
-	
 	@Builder
-	public Member(Long id, String username, String email, String password) {
-		this.id = id;
-		this.username = username;
+	public Member(String email, String password) {
 		this.email = email;
 		this.password = password;
 	}

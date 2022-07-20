@@ -1,6 +1,27 @@
 
+spring:
+  jpa:
+    open-in-view: false
+
+
+  main:
+    allow-circular-references: true
+
+  sql:
+    init:
+      platform: h2
+      schema-locations: classpath:sql/schema_new.sql
+      data-locations: classpath:sql/data_new.sql
+      encoding: UTF-8
+
+
 jwt:
   header: token
   issuer: prgrms
   client-secret: EENY5W0eegTf1naQB2eDeyCLl5kRS2b8xa5c4qLdS0hmVjtbvo8tOyhPMcAmtPuQ
   expiry-seconds: 60
+
+
+logging:
+  level:
+    web: debug

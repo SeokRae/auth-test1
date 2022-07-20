@@ -2,16 +2,17 @@ package com.example.auth.member.interfaces;
 
 import com.example.auth.member.application.MemberCommandService;
 import com.example.auth.member.application.MemberQueryService;
-import com.example.auth.member.interfaces.dto.RequestMe;
-import com.example.auth.member.interfaces.dto.RequestSaveMember;
-import com.example.auth.member.interfaces.dto.ResponseMember;
+import com.example.auth.member.interfaces.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
+
+import static com.example.auth.member.interfaces.dto.ApiResult.OK;
 
 @Slf4j
 @RestController
@@ -23,10 +24,12 @@ public class MemberController {
 	private final MemberQueryService memberQueryService;
 	
 	@PostMapping(path = "/signup")
-	public ResponseEntity<ResponseMember> signUp(@RequestBody RequestSaveMember saveMember) {
-		ResponseMember responseMember = memberCommandService.saveMember(saveMember);
+	public ApiResult<ResponseSignUp> signUp(@RequestBody RequestSaveMember saveMember) {
+		ResponseSignUp responseMember = Optional.of(memberCommandService.saveMember(saveMember))
+			.map(member -> new ResponseSignUp(null, new MemberDto(member)))
+			.orElseThrow(RuntimeException::new);
 		log.info("signUp : {}", responseMember);
-		return ResponseEntity.ok().body(responseMember);
+		return OK(responseMember);
 	}
 	
 	@PostMapping(path = "/signIn")
@@ -36,9 +39,9 @@ public class MemberController {
 	}
 	
 	@PostMapping(path = "/me")
-	public ResponseEntity<ResponseMember> getProfile(@RequestBody RequestMe requestMe) {
-		ResponseMember responseMember = memberQueryService.findMemberByEmail(requestMe.getEmail());
+	public ApiResult<MemberDto> getProfile(@RequestBody RequestMe requestMe) {
+		MemberDto responseMember = memberQueryService.findMemberByEmail(requestMe.getEmail());
 		log.info("getProfile : {}", responseMember);
-		return ResponseEntity.ok(responseMember);
+		return ApiResult.OK(responseMember);
 	}
 }

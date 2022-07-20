@@ -2,7 +2,7 @@ package com.example.auth.member.application;
 
 import com.example.auth.member.exception.NotFoundException;
 import com.example.auth.member.infrastructure.MemberRepository;
-import com.example.auth.member.interfaces.dto.ResponseMember;
+import com.example.auth.member.interfaces.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,16 +15,16 @@ public class MemberReadOnlyService implements MemberQueryService {
 	private final MemberRepository memberRepository;
 	
 	@Override
-	public ResponseMember findMemberByUsername(String username) {
+	public MemberDto findMemberByUsername(String username) {
 		return memberRepository.findByUsername(username)
-			.map(ResponseMember::new)
+			.map(MemberDto::new)
 			.orElseThrow(NotFoundException::new);
 	}
 	
 	@Override
-	public ResponseMember findMemberByEmail(String email) {
+	public MemberDto findMemberByEmail(String email) {
 		return memberRepository.findByEmail(email)
-			.map(ResponseMember::new)
+			.map(MemberDto::new)
 			.orElseThrow(NotFoundException::new);
 	}
 }

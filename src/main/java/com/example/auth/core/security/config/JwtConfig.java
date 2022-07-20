@@ -1,4 +1,4 @@
-package com.example.auth.core.security;
+package com.example.auth.core.security.config;
 
 import lombok.Getter;
 import lombok.Setter;

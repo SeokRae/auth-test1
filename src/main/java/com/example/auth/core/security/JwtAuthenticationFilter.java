@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -76,11 +77,7 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		String token = request.getHeader(headerKey);
 		if (isNotEmpty(token)) {
 			log.debug("Jwt authorization api detected: {}", token);
-			try {
-				return URLDecoder.decode(token, "UTF-8");
-			} catch (UnsupportedEncodingException e) {
-				log.error(e.getMessage(), e);
-			}
+			return URLDecoder.decode(token, StandardCharsets.UTF_8);
 		}
 		return null;
 	}

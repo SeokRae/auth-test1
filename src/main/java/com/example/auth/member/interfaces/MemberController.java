@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
 import static com.example.auth.member.interfaces.dto.ApiResult.OK;
 
 @Slf4j
@@ -25,9 +23,8 @@ public class MemberController {
 	
 	@PostMapping(path = "/signup")
 	public ApiResult<ResponseSignUp> signUp(@RequestBody RequestSaveMember saveMember) {
-		ResponseSignUp responseMember = Optional.of(memberCommandService.saveMember(saveMember))
-			.map(member -> new ResponseSignUp(null, new MemberDto(member)))
-			.orElseThrow(RuntimeException::new);
+		MemberDto savedMember = memberCommandService.saveMember(saveMember.getEmail(), saveMember.getPassword());
+		ResponseSignUp responseMember = new ResponseSignUp(null, savedMember);
 		log.info("signUp : {}", responseMember);
 		return OK(responseMember);
 	}

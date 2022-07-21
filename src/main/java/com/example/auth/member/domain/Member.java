@@ -21,9 +21,8 @@ public class Member {
 	
 	private String password;
 	
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "group_id")
-	private Group group;
+	@Enumerated(EnumType.STRING)
+	private Role role;
 	
 	public Member() {
 	}
@@ -32,6 +31,13 @@ public class Member {
 	public Member(String email, String password) {
 		this.email = email;
 		this.password = password;
+	}
+	
+	@Builder
+	public Member(String email, String password, Role role) {
+		this.email = email;
+		this.password = password;
+		this.role = role;
 	}
 	
 	public void checkPassword(PasswordEncoder passwordEncoder, String credentials) {

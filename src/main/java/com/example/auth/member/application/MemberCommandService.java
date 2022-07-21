@@ -1,9 +1,7 @@
 package com.example.auth.member.application;
 
-import com.example.auth.member.domain.Member;
-import com.example.auth.member.interfaces.dto.RequestSaveMember;
+import com.example.auth.member.interfaces.dto.MemberDto;
 
 public interface MemberCommandService {
-	Member saveMember(RequestSaveMember saveMember);
-	
+	MemberDto saveMember(String email, String password);
 }

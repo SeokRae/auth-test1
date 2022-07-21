@@ -9,7 +9,9 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.apache.commons.lang3.ClassUtils.isAssignable;
@@ -42,7 +44,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 	private Authentication processUserAuthentication(String principal, String credentials) {
 		try {
 			Member user = userService.login(principal, credentials);
-			List<GrantedAuthority> authorities = user.getGroup().getAuthorities();
+			List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
 			String token = getToken(user.getEmail(), authorities);
 			JwtAuthenticationToken authenticated =
 				new JwtAuthenticationToken(new JwtAuthentication(token, user.getEmail()), null, authorities);

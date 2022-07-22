@@ -4,6 +4,8 @@ import com.example.auth.core.security.Jwt;
 import com.example.auth.core.security.JwtAuthenticationFilter;
 import com.example.auth.core.security.JwtAuthenticationProvider;
 import com.example.auth.core.security.config.JwtConfig;
+import com.example.auth.core.security.handler.EntryPointUnauthorizedHandler;
+import com.example.auth.core.security.handler.JwtAccessDeniedHandler;
 import com.example.auth.member.application.UserService;
 import com.example.auth.member.domain.Role;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +29,8 @@ import org.springframework.security.web.context.SecurityContextPersistenceFilter
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private final JwtConfig jwtConfig;
+	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+	private final EntryPointUnauthorizedHandler entryPointUnauthorizedHandler;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -47,6 +51,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers(HttpMethod.POST, "/v1/member/signup", "/v1/member/signin").permitAll()
 			.antMatchers(HttpMethod.POST, "/v1/member/me").hasRole(Role.ROLE_USER.name())
 			.anyRequest().authenticated();
+		
+		http
+			.exceptionHandling()
+			.accessDeniedHandler(jwtAccessDeniedHandler)
+			.authenticationEntryPoint(entryPointUnauthorizedHandler);
 		
 		http
 			.addFilterAfter(getFilter(), SecurityContextPersistenceFilter.class);

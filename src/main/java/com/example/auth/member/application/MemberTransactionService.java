@@ -25,7 +25,7 @@ public class MemberTransactionService implements MemberCommandService {
 	@Override
 	public MemberDto saveMember(String email, String password) {
 		checkArgument(isNotEmpty(password), "password must be provided.");
-		return Optional.of(memberRepository.save(new Member(email, password, Role.USER.name(), passwordEncoder)))
+		return Optional.of(memberRepository.save(new Member(email, password, Role.ROLE_USER.name(), passwordEncoder)))
 			.map(MemberDto::new)
 			.orElseThrow(RuntimeException::new);
 	}

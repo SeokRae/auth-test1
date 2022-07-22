@@ -5,6 +5,7 @@ import com.example.auth.core.security.JwtAuthenticationFilter;
 import com.example.auth.core.security.JwtAuthenticationProvider;
 import com.example.auth.core.security.config.JwtConfig;
 import com.example.auth.member.application.UserService;
+import com.example.auth.member.domain.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -43,7 +44,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeHttpRequests()
 			.antMatchers("/assets/**", "/h2-console/**").permitAll()
-			.antMatchers(HttpMethod.POST, "/v1/member/signup", "/v1/member/signin").permitAll();
+			.antMatchers(HttpMethod.POST, "/v1/member/signup", "/v1/member/signin").permitAll()
+			.antMatchers(HttpMethod.POST, "/v1/member/me").hasRole(Role.ROLE_USER.name())
+			.anyRequest().authenticated();
 		
 		http
 			.addFilterAfter(getFilter(), SecurityContextPersistenceFilter.class);

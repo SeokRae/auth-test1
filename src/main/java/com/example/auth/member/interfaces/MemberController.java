@@ -10,10 +10,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import static com.example.auth.member.interfaces.dto.ApiResult.OK;
 
@@ -47,9 +45,9 @@ public class MemberController {
 		return new ResponseToken(member.getEmail(), member.getRole(), auth.getToken());
 	}
 	
-	@PostMapping(path = "/me")
-	public ApiResult<MemberDto> getProfile(@RequestBody RequestMe requestMe) {
-		MemberDto responseMember = memberQueryService.findMemberByEmail(requestMe.getEmail());
+	@GetMapping(path = "/me")
+	public ApiResult<MemberDto> getProfile(@AuthenticationPrincipal JwtAuthentication jwtAuthentication) {
+		MemberDto responseMember = memberQueryService.findMemberByEmail(jwtAuthentication.getUsername());
 		log.info("getProfile : {}", responseMember);
 		return ApiResult.OK(responseMember);
 	}

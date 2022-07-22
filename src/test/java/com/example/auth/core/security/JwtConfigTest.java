@@ -26,6 +26,6 @@ class JwtConfigTest {
 			() -> assertThat(jwtConfig.getHeader()).isNotBlank(),
 			() -> assertThat(jwtConfig.getExpirySeconds()).isPositive(),
 			() -> assertThat(jwtConfig.getClientSecret()).isNotBlank()
-			);
+		);
 	}
 }

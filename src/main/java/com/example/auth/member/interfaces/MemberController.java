@@ -23,7 +23,6 @@ public class MemberController {
 	
 	private final MemberCommandService memberCommandService;
 	private final MemberQueryService memberQueryService;
-	
 	private final AuthenticationManager authenticationManager;
 	
 	@PostMapping(path = "/signup")
@@ -34,7 +33,7 @@ public class MemberController {
 	}
 	
 	@PostMapping(path = "/signin")
-	public ResponseToken signIn(@RequestBody RequestLoginMember login) {
+	public ApiResult<ResponseToken> signIn(@RequestBody RequestLoginMember login) {
 		JwtAuthenticationToken token = new JwtAuthenticationToken(login.getEmail(), login.getPassword());
 		Authentication authentication = authenticationManager.authenticate(token);
 		
@@ -42,13 +41,13 @@ public class MemberController {
 		Member member = (Member) authentication.getDetails();
 		// 토큰 발급
 		log.info("signIn");
-		return new ResponseToken(member.getEmail(), member.getRole(), auth.getToken());
+		return OK(new ResponseToken(auth.getToken(), new MemberDto(member)));
 	}
 	
 	@GetMapping(path = "/me")
 	public ApiResult<MemberDto> getProfile(@AuthenticationPrincipal JwtAuthentication jwtAuthentication) {
 		MemberDto responseMember = memberQueryService.findMemberByEmail(jwtAuthentication.getUsername());
 		log.info("getProfile : {}", responseMember);
-		return ApiResult.OK(responseMember);
+		return OK(responseMember);
 	}
 }

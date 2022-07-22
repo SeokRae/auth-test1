@@ -9,7 +9,7 @@ public class MemberDto {
 	private final Long id;
 	private final String username;
 	private final String email;
-	private final Role role;
+	private final String role;
 	
 	public MemberDto(Member m) {
 		this.id = m.getId();

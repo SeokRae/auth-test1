@@ -19,8 +19,16 @@ public class JwtAuthentication {
     this.token = token;
     this.username = username;
   }
-
-  @Override
+	
+	public String getToken() {
+		return token;
+	}
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	@Override
   public String toString() {
     return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
       .append("token", token)

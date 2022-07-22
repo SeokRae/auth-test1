@@ -43,11 +43,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeHttpRequests()
 			.antMatchers("/assets/**", "/h2-console/**").permitAll()
-			.antMatchers(HttpMethod.POST, "/v1/member/signup", "/v1/member/login").permitAll()
-			.anyRequest().authenticated();
+			.antMatchers(HttpMethod.POST, "/v1/member/signup", "/v1/member/signin").permitAll();
 		
-//		http
-//			.addFilterAfter(getFilter(), SecurityContextPersistenceFilter.class);
+		http
+			.addFilterAfter(getFilter(), SecurityContextPersistenceFilter.class);
 	}
 	
 	@Bean

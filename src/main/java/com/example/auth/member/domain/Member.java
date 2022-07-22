@@ -21,22 +21,15 @@ public class Member {
 	
 	private String password;
 	
-	@Enumerated(EnumType.STRING)
-	private Role role;
+	private String role;
 	
-	public Member() {
+	protected Member() {
 	}
 	
 	@Builder
-	public Member(String email, String password) {
+	public Member(String email, String password, String role, PasswordEncoder passwordEncoder) {
 		this.email = email;
-		this.password = password;
-	}
-	
-	@Builder
-	public Member(String email, String password, Role role) {
-		this.email = email;
-		this.password = password;
+		this.password = passwordEncoder.encode(password);
 		this.role = role;
 	}
 	

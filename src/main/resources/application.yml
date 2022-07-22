@@ -3,7 +3,6 @@ spring:
   jpa:
     open-in-view: false
 
-
   main:
     allow-circular-references: true
 
@@ -11,8 +10,16 @@ spring:
     init:
       platform: h2
       schema-locations: classpath:sql/schema_new.sql
-      data-locations: classpath:sql/data_new.sql
+#      data-locations: classpath:sql/data_new.sql
       encoding: UTF-8
+  h2:
+    console:
+      enabled: true
+      settings:
+        trace: true
+  datasource:
+    hikari:
+      jdbc-url: jdbc:h2:mem:test_mem
 
 
 jwt:
@@ -24,4 +31,6 @@ jwt:
 
 logging:
   level:
+#    root: debug
     web: debug
+    com.example: debug

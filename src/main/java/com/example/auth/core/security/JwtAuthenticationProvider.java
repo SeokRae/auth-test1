@@ -2,6 +2,8 @@ package com.example.auth.core.security;
 
 import com.example.auth.member.application.UserService;
 import com.example.auth.member.domain.Member;
+import com.example.auth.member.interfaces.dto.MemberDto;
+import com.example.auth.member.interfaces.dto.ResponseToken;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -45,10 +47,10 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 		try {
 			Member user = userService.login(principal, credentials);
 			List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
-			String token = getToken(user.getEmail(), authorities);
 			JwtAuthenticationToken authenticated =
-				new JwtAuthenticationToken(new JwtAuthentication(token, user.getEmail()), null, authorities);
-			authenticated.setDetails(user);
+				new JwtAuthenticationToken(new JwtAuthentication(user.getId(), user.getEmail()), null, authorities);
+			String token = getToken(user.getId(), user.getEmail(), authorities);
+			authenticated.setDetails(new ResponseToken(token, new MemberDto(user)));
 			return authenticated;
 		} catch (IllegalArgumentException e) {
 			throw new BadCredentialsException(e.getMessage());
@@ -57,11 +59,11 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 		}
 	}
 	
-	private String getToken(String username, List<GrantedAuthority> authorities) {
+	private String getToken(Long id, String email, List<GrantedAuthority> authorities) {
 		String[] roles = authorities.stream()
 			.map(GrantedAuthority::getAuthority)
 			.toArray(String[]::new);
-		return jwt.sign(Jwt.Claims.from(username, roles));
+		return jwt.sign(Jwt.Claims.from(id, email, roles));
 	}
 	
 }

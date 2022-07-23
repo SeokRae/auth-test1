@@ -5,9 +5,11 @@ import lombok.Getter;
 
 @Getter
 public class MemberDto {
-	private final Long id;
-	private final String email;
-	private final String role;
+	private Long id;
+	private String email;
+	private String role;
+	
+	protected MemberDto() {}
 	
 	public MemberDto(Member m) {
 		this.id = m.getId();

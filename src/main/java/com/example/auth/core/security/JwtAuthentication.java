@@ -1,39 +1,33 @@
 package com.example.auth.core.security;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 public class JwtAuthentication {
 	
-	public final String token;
+	private final Long id;
+	private final String email;
 	
-	public final String username;
-	
-	JwtAuthentication(String token, String username) {
-		checkArgument(isNotEmpty(token), "token must be provided.");
-		checkArgument(isNotEmpty(username), "username must be provided.");
-		
-		this.token = token;
-		this.username = username;
+	JwtAuthentication(Long id, String email) {
+		checkArgument(id != null, "id must be provided.");
+		checkArgument(isNotEmpty(email), "email must be provided.");
+		this.id = id;
+		this.email = email;
 	}
 	
-	public String getToken() {
-		return token;
+	public Long getId() {
+		return id;
 	}
 	
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 	
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-			.append("token", token)
-			.append("username", username)
-			.toString();
+		return "JwtAuthentication{" +
+			"id=" + id +
+			", email='" + email + '\'' +
+			'}';
 	}
-	
 }

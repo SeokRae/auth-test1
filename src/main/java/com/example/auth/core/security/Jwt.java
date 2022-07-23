@@ -44,7 +44,8 @@ public final class Jwt {
 		if (expirySeconds > 0) {
 			builder.withExpiresAt(new Date(now.getTime() + expirySeconds * 1_000L));
 		}
-		builder.withClaim("username", claims.username);
+		builder.withClaim("id", claims.id);
+		builder.withClaim("email", claims.email);
 		builder.withArrayClaim("roles", claims.roles);
 		return builder.sign(algorithm);
 	}
@@ -81,7 +82,8 @@ public final class Jwt {
 	}
 	
 	public static class Claims {
-		String username;
+		Long id;
+		String email;
 		String[] roles;
 		Date iat;
 		Date exp;
@@ -89,24 +91,28 @@ public final class Jwt {
 		private Claims() {/*no-op*/}
 		
 		Claims(DecodedJWT decodedJWT) {
-			Claim username = decodedJWT.getClaim("username");
-			if (!username.isNull()) this.username = username.asString();
+			Claim id = decodedJWT.getClaim("id");
+			if (!id.isNull()) this.id = id.asLong();
+			Claim email = decodedJWT.getClaim("email");
+			if (!email.isNull()) this.email = email.asString();
 			Claim roles = decodedJWT.getClaim("roles");
 			if (!roles.isNull()) this.roles = roles.asArray(String.class);
 			this.iat = decodedJWT.getIssuedAt();
 			this.exp = decodedJWT.getExpiresAt();
 		}
 		
-		public static Claims from(String username, String[] roles) {
+		public static Claims from(Long id, String email, String[] roles) {
 			Claims claims = new Claims();
-			claims.username = username;
+			claims.id = id;
+			claims.email = email;
 			claims.roles = roles;
 			return claims;
 		}
 		
 		public Map<String, Object> asMap() {
 			Map<String, Object> map = new HashMap<>();
-			map.put("username", username);
+			map.put("id", id);
+			map.put("email", email);
 			map.put("roles", roles);
 			map.put("iat", iat());
 			map.put("exp", exp());
@@ -132,7 +138,8 @@ public final class Jwt {
 		@Override
 		public String toString() {
 			return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE)
-				.append("username", username)
+				.append("id", id)
+				.append("email", email)
 				.append("roles", Arrays.toString(roles))
 				.append("iat", iat)
 				.append("exp", exp)

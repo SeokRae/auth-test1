@@ -39,22 +39,22 @@ class JwtTest {
 	@DisplayName("JWT 생성 검증")
 	@Test
 	void testCase2() {
-		Jwt.Claims claims = Jwt.Claims.from("tester", new String[]{"ROLE_USER"});
-		assertThat(claims.username).isEqualTo("tester");
+		Jwt.Claims claims = Jwt.Claims.from(1L,"test@gmail.com", new String[]{"ROLE_USER"});
+		assertThat(claims.email).isEqualTo("test@gmail.com");
 		assertThat(claims.roles).isEqualTo(new String[]{"ROLE_USER"});
 	}
 	
 	@DisplayName("JWT_토큰을_생성하고_복호화_할수있다")
 	@Test
 	void testCase3() {
-		Jwt.Claims claims = Jwt.Claims.from("tester", new String[]{"ROLE_USER"});
+		Jwt.Claims claims = Jwt.Claims.from(1L,"test@gmail.com", new String[]{"ROLE_USER"});
 		String encodedJWT = jwt.sign(claims);
 		log.info("encodedJWT: {}", encodedJWT);
 		
 		Jwt.Claims decodedJWT = jwt.verify(encodedJWT);
 		log.info("decodedJWT: {}", decodedJWT);
 		
-		assertThat(claims.username).isEqualTo(decodedJWT.username);
+		assertThat(claims.email).isEqualTo(decodedJWT.email);
 		assertArrayEquals(claims.roles, decodedJWT.roles);
 	}
 	
@@ -62,7 +62,7 @@ class JwtTest {
 	@Test
 	void testCase4() throws Exception {
 		if (jwt.getExpirySeconds() > 0) {
-			Jwt.Claims claims = Jwt.Claims.from("tester", new String[]{"ROLE_USER"});
+			Jwt.Claims claims = Jwt.Claims.from(1L,"test@gmail.com", new String[]{"ROLE_USER"});
 			String encodedJWT = jwt.sign(claims);
 			log.info("encodedJWT: {}", encodedJWT);
 			
@@ -91,7 +91,7 @@ class JwtTest {
 	@DisplayName("payload 데이터 확인")
 	@Test
 	void testCase5() {
-		Jwt.Claims claims = Jwt.Claims.from("tester", new String[]{"ROLE_USER"});
+		Jwt.Claims claims = Jwt.Claims.from(1L,"test@gmail.com", new String[]{"ROLE_USER"});
 		Map<String, Object> stringObjectMap = claims.asMap();
 		assertAll(
 			() -> assertThat(stringObjectMap).containsEntry("username", "tester"),

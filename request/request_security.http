@@ -1,6 +1,6 @@
 ### 사용자 등록
-POST http://localhost:8080/v1/member/signup
-Content-Type: application/json
+POST http://localhost:8080/v1/member/signUp
+Content-Type: application/json;charset=utf-8
 
 {
   "email": "kslbsh@gmail.com",
@@ -9,7 +9,7 @@ Content-Type: application/json
 
 
 ### 사용자 로그인
-POST http://localhost:8080/v1/member/signin
+POST http://localhost:8080/v1/member/signIn
 Content-Type: application/json
 
 {
@@ -20,13 +20,6 @@ Content-Type: application/json
 
 ### 사용자 로그인
 GET http://localhost:8080/v1/member/me
-Content-Type: application/json
-token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaXNzIjoicHJncm1zIiwiZXhwIjoxNjU4NDk4NTAwLCJpYXQiOjE2NTg0OTgxNDAsInVzZXJuYW1lIjoia3NsYnNoQGdtYWlsLmNvbSJ9.o0tojdhjG3ys48gLoz1FgQ17cpHY8WMz8_xHOly1ZjIoUQV53fSdW1U_zIfSytNvb4as5XWACF1k-LpnTe01Uw
-
-{
-  "email": "kslbsh@gmail.com",
-  "password": "1234"
-}
-
+token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwiaXNzIjoicHJncm1zIiwiaWQiOjEsImV4cCI6MTY1ODU4NTA5NCwiaWF0IjoxNjU4NTg0NzM0LCJlbWFpbCI6ImtzbGJzaEBnbWFpbC5jb20ifQ.do_j7YZq-NFuBnD6hNqMpQiy-MXjgJNeKqgVjvgY6nr--44XDbNHlFOHcZVgluFpn5Alkm4KEp3s-dJ868286Q
 
 

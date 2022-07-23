@@ -37,7 +37,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.csrf().disable(); // 가장 먼저 설정해줘야 함
 		
-		http.formLogin().disable()
+		http
+			.formLogin().disable()
+			.cors().disable()
 			.httpBasic().disable()
 			.headers().disable()
 			.rememberMe().disable()
@@ -48,8 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 			.authorizeHttpRequests()
 			.antMatchers("/assets/**", "/h2-console/**").permitAll()
-			.antMatchers(HttpMethod.POST, "/v1/member/signup", "/v1/member/signin").permitAll()
-			.antMatchers(HttpMethod.POST, "/v1/member/me").hasRole(Role.ROLE_USER.name())
+			.antMatchers(HttpMethod.POST, "/v1/member/signUp", "/v1/member/signIn").permitAll()
+			.antMatchers(HttpMethod.GET, "/v1/member/me").hasRole("USER")
 			.anyRequest().authenticated();
 		
 		http
@@ -58,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.authenticationEntryPoint(entryPointUnauthorizedHandler);
 		
 		http
-			.addFilterAfter(getFilter(), SecurityContextPersistenceFilter.class);
+			.addFilterAfter(jwtAuthenticationFilter(), SecurityContextPersistenceFilter.class);
 	}
 	
 	@Bean
@@ -70,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		);
 	}
 	
-	public JwtAuthenticationFilter getFilter() {
+	public JwtAuthenticationFilter jwtAuthenticationFilter() {
 		Jwt jwt = getApplicationContext().getBean(Jwt.class);
 		return new JwtAuthenticationFilter(jwtConfig.getHeader(), jwt);
 	}

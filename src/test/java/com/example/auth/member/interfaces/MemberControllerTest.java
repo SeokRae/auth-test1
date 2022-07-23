@@ -89,7 +89,7 @@ class MemberControllerTest {
 	@Test
 	@WithMockJwtAuthentication
 	@DisplayName("내 정보 조회 성공 테스트 (토큰이 올바른 경우)")
-	void meSuccessTest() throws Exception {
+	void test3() throws Exception {
 		ResultActions result = mockMvc.perform(
 			get("/v1/member/me")
 		);

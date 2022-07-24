@@ -1,6 +1,7 @@
 package com.example.auth.member.application;
 
-import com.example.auth.member.exception.NotFoundException;
+import com.example.auth.member.domain.Member;
+import com.example.auth.member.exception.NotFoundMemberException;
 import com.example.auth.member.infrastructure.MemberRepository;
 import com.example.auth.member.interfaces.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +19,13 @@ public class MemberReadOnlyService implements MemberQueryService {
 	public MemberDto findMemberByUsername(String username) {
 		return memberRepository.findByUsername(username)
 			.map(MemberDto::new)
-			.orElseThrow(NotFoundException::new);
+			.orElseThrow(NotFoundMemberException::new);
 	}
 	
 	@Override
 	public MemberDto findMemberByEmail(String email) {
 		return memberRepository.findByEmail(email)
 			.map(MemberDto::new)
-			.orElseThrow(NotFoundException::new);
+			.orElseThrow(NotFoundMemberException::new);
 	}
 }

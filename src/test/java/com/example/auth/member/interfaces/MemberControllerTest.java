@@ -28,6 +28,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -55,6 +56,7 @@ class MemberControllerTest {
 	
 	@Order(1)
 	@Test
+	@DisplayName("사용자 등록 테스트")
 	void test1() throws Exception {
 		
 		ResultActions result = mockMvc.perform(
@@ -66,11 +68,12 @@ class MemberControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(handler().handlerType(MemberController.class))
 			.andExpect(handler().methodName("signUp"))
-			.andDo(print());
+		;
 	}
 	
 	@Order(2)
 	@Test
+	@DisplayName("사용자 로그인 테스트")
 	void test2() throws Exception {
 		
 		ResultActions result = mockMvc.perform(

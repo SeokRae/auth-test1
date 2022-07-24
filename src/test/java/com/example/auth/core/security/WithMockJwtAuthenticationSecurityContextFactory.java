@@ -6,7 +6,7 @@ import org.springframework.security.test.context.support.WithSecurityContextFact
 
 import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
 
-public class WithMockJwtAuthenticationSecurityContextFactory implements WithSecurityContextFactory<WithMockJwtAuthentication> {
+final class WithMockJwtAuthenticationSecurityContextFactory implements WithSecurityContextFactory<WithMockJwtAuthentication> {
 
   @Override
   public SecurityContext createSecurityContext(WithMockJwtAuthentication annotation) {

@@ -9,7 +9,8 @@ public class MemberDto {
 	private String email;
 	private String role;
 	
-	protected MemberDto() {}
+	protected MemberDto() {
+	}
 	
 	public MemberDto(Member m) {
 		this.id = m.getId();

@@ -1,6 +1,5 @@
 package com.example.auth.member.application;
 
-import com.example.auth.member.domain.Member;
 import com.example.auth.member.exception.NotFoundMemberException;
 import com.example.auth.member.infrastructure.MemberRepository;
 import com.example.auth.member.interfaces.dto.MemberDto;

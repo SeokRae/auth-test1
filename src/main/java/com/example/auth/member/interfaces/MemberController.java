@@ -1,11 +1,9 @@
 package com.example.auth.member.interfaces;
 
-import com.example.auth.core.security.Jwt;
 import com.example.auth.core.security.JwtAuthentication;
 import com.example.auth.core.security.JwtAuthenticationToken;
 import com.example.auth.member.application.MemberCommandService;
 import com.example.auth.member.application.MemberQueryService;
-import com.example.auth.member.domain.Member;
 import com.example.auth.member.interfaces.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +23,7 @@ public class MemberController {
 	private final MemberCommandService memberCommandService;
 	private final MemberQueryService memberQueryService;
 	private final AuthenticationManager authenticationManager;
+	
 	@PostMapping(path = "/signUp")
 	public ApiResult<MemberDto> signUp(@RequestBody RequestSaveMember saveMember) {
 		MemberDto savedMember = memberCommandService.saveMember(saveMember.getEmail(), saveMember.getPassword());

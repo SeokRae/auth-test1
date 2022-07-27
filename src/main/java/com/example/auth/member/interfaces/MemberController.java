@@ -25,7 +25,6 @@ public class MemberController {
 	private final MemberCommandService memberCommandService;
 	private final MemberQueryService memberQueryService;
 	private final AuthenticationManager authenticationManager;
-	private final Jwt jwt;
 	@PostMapping(path = "/signUp")
 	public ApiResult<MemberDto> signUp(@RequestBody RequestSaveMember saveMember) {
 		MemberDto savedMember = memberCommandService.saveMember(saveMember.getEmail(), saveMember.getPassword());

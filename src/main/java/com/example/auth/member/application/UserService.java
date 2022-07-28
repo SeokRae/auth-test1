@@ -34,11 +34,4 @@ public class UserService {
 		user.checkPassword(passwordEncoder, credentials);
 		return user;
 	}
-	
-	@Transactional(readOnly = true)
-	public Optional<Member> findByEmail(String loginId) {
-		checkArgument(isNotEmpty(loginId), "loginId must be provided.");
-		return userRepository.findByEmail(loginId);
-	}
-	
 }

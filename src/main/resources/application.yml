@@ -4,7 +4,9 @@ spring:
 
   main:
     allow-circular-references: true
-
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   sql:
     init:
       platform: h2
@@ -28,8 +30,8 @@ jwt:
   client-secret: EENY5W0eegTf1naQB2eDeyCLl5kRS2b8xa5c4qLdS0hmVjtbvo8tOyhPMcAmtPuQ
   expiry-seconds: 360
 
-
 logging:
   level:
+    root: debug
     com.example: debug
     org.springframework.security: debug

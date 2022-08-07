@@ -14,12 +14,17 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
 
 @EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
@@ -30,10 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private final EntryPointUnauthorizedHandler entryPointUnauthorizedHandler;
 	
 	@Override
+	public void configure(WebSecurity web) {
+		web.ignoring().antMatchers("/swagger-resources", "/webjars/**", "/static/**", "/templates/**", "/v2/**", "/h2/**");
+	}
+
+	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 			.csrf().disable(); // 가장 먼저 설정해줘야 함
-		
 		http
 			.formLogin().disable()
 			.cors().disable()
@@ -46,10 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http
 			.authorizeHttpRequests()
-			.antMatchers("/assets/**", "/h2-console/**").permitAll()
-			.antMatchers(HttpMethod.POST, "/v1/member/signUp", "/v1/member/signIn").permitAll()
-			.antMatchers(HttpMethod.GET, "/v1/member/me").hasRole("USER")
-			.anyRequest().authenticated();
+			.antMatchers(POST, "/v1/member/signUp", "/v1/member/signIn").permitAll()
+			.antMatchers(GET, "/v1/member/me").hasRole("USER")
+			.anyRequest().permitAll();
 		
 		http
 			.exceptionHandling()
